@@ -1,0 +1,5 @@
+<!--index.wxml-->
+<navigation-bar title="美好回忆" back="{{false}}" color="black" background="#ffa500"></navigation-bar>
+<view class="main">
+  <scrollView />
+</view>

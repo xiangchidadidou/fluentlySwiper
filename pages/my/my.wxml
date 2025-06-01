@@ -1,0 +1,40 @@
+<!-- pages/my/my.wxml -->
+<navigation-bar title="我的" back="{{false}}" color="black" background="#ffa500"></navigation-bar>
+<view class="my">
+    <view class="my_top">
+        <image src="/images/myTab.png" class="my_top_img"></image>
+         <view class="my_top_name" wx:if="{{!isLoggedIn}}">
+            <!-- 键盘输入时或内容改变时触发 -->
+            <input type="text" placeholder="请输入用户名 (24055060115)" bindinput="handleUsernameInput" value="{{user.username}}" class="input-field" />
+            <input type="password" placeholder="请输入密码 (24055060115)" bindinput="handlePasswordInput" value="{{user.password}}" class="input-field" />
+        </view>
+        <!-- 如果isLoggedIn存在，则出现登出 -->
+        <view wx:if="{{isLoggedIn}}">
+            <button class="logout-btn" bindtap="handleLogout"><text>登出</text></button>
+        </view>
+        <!-- 如果isLoggedIn不存在，则出现登录 -->
+        <view wx:else>
+           
+            <button class="login-btn" bindtap="handleLogin"><text>登录</text></button>
+        </view>
+    </view>
+
+    <!-- 视频 -->
+    <video id="myVideo" src="http://127.0.0.1:3000/01.mp4" 
+    controls="true" 
+    autoplay="{{false}}" 
+    loop="{{true}}" 
+    muted="{{false}}"
+    initial-time="0" 
+    class="video" 
+    binderror="handleVideoError" 
+    bindplay="handleVideoPlay" 
+    bindpause="handleVideoPause" 
+    bindfullscreenchange="handleFullscreenChange" 
+    show-center-play-btn="{{true}}" 
+    show-play-btn="{{true}}" 
+    enable-play-gesture="{{true}}" 
+    object-fit="cover" 
+    poster="../../images/tabs/1.jpg" 
+    direction="0"></video>
+</view>

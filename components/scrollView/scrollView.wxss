@@ -1,0 +1,92 @@
+/* components/scrollView/scollView.wxss */
+.scroll-page {
+    background-color: #ffa500;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 30rpx 30rpx 0 0;
+}
+
+.container-head {
+    margin: 0 auto;
+    width: calc(170rpx * 3 + 15rpx * 2);
+    height: 110rpx;
+}
+
+.container-head-sc {
+    color: #333;
+    white-space: nowrap;
+}
+
+.container-head-sc .item {
+    padding: 0 20rpx;
+    min-width: 90rpx;
+    width: 170rpx;
+    box-sizing: border-box;
+    font-size: 26rpx;
+    display: inline-block;
+    /* 引起高度塌陷 */
+    vertical-align: middle;
+    height: 50rpx;
+    border-radius: 25rpx;
+    background: #eeece4;
+    margin-right: 15rpx;
+}
+
+.container-head-sc .item:last-child {
+    margin-right: 0;
+}
+
+.container-head-sc .item image {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 10rpx;
+    flex-shrink: 0;
+}
+
+.container-head-sc .active {
+    color: #fff;
+    font-weight: bold;
+    background: orange;
+    border-radius: 30rpx;
+    height: 60rpx;
+    font-size: 30rpx;
+}
+
+/* swiper默认高度为150rpx */
+.container-swiper {
+    height: calc(100% - 110rpx);
+}
+
+.container-swiper-sc {
+    height: 100%;
+    padding: 0 2%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+}
+
+.container-swiper-sc image {
+    width: 100%;
+    height: 95%;
+    border-radius: 20rpx;
+}
+
+/* 隐藏scroll-view的滚动条 */
+.container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}

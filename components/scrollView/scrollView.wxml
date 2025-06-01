@@ -1,0 +1,27 @@
+<!-- components/scrollView/scollView.wxml -->
+<scroll-view class="scroll-page container" scroll-y>
+    <view class="container_head flex-row">
+        <scroll-view scroll-x class="container-head-sc" scroll-left="{{sleft}}" scroll-with-animation="true">
+            <!-- data-current用于在事件处理函数中获取当前点击项的索引值，通过e.currentTarget.dataset.current获取 -->
+            <!-- catchtap当存在多个嵌套的元素，且都绑点击事件，如没阻止冒泡，那么点击内层元素会先触发内层元素的"catchtap"，再触发外层元素的"catchtap" -->
+            <view class="item {{currentTab==index?'active':''}}" data-current="{{index}}" catchtap="handleTabChange" wx:key="list" wx:for="{{tabs}}">
+                <view class="flew-row j_c" style="height:100%">
+                    <image src="{{item.icon}}"></image>
+                    <text>{{item.name}}</text>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <swiper current="{{currentTab}}" bindchange="handleSwiperChange" class="container-swiper" scroll-width-animation duration="{{1000}}" easing-function='easeInOutCubic'>
+        <swiper-item class="flex-column j_c" wx:for="{{tabs}}" wx:key='index'>
+            <scroll-view scroll-y class="container-swiper-sc">
+                <block wx:if="{{item.cover === 'http://127.0.0.1:3000/01.mp4'}}">
+                    <video src="http://127.0.0.1:3000/01.mp4" controls="true" show-play-btn="{{true}}" show-center-play-btn="{{true}}" enable-play-gesture="{{true}}" object-fit="contain" class="video-player"></video>
+                </block>
+                <block wx:else>
+                    <image src="{{item.cover}}" mode="aspectFill" catchtap='changeUrl' data-url="{{item.url}}" />
+                </block>
+            </scroll-view>
+        </swiper-item>
+    </swiper>
+</scroll-view>
