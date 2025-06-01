@@ -1,4 +1,4 @@
-# FluentlySwiper 微信小程序项目说明
+# FluentlySwiper 微信小程序项目说明（Wechat）
 
 本项目是一个基于微信小程序开发的演示应用，主要展示了自定义组件、登录鉴权、本地视频播放以及动态内容展示等功能。
 浏览视频功能请下载server的node_modules，cmd执行index.js即可
