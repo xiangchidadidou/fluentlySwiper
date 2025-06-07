@@ -3,6 +3,9 @@
 本项目是一个基于微信小程序开发的演示应用，主要展示了自定义组件、登录鉴权、本地视频播放以及动态内容展示等功能。
 浏览视频功能请下载server的node_modules，cmd执行index.js即可
 
+![image](https://github.com/user-attachments/assets/b203f560-0871-4af1-8ead-63d28944777f)
+
+
 ## 1. 功能演示与操作流程
 
 ### 1.1 登录/登出模块
