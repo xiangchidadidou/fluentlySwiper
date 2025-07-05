@@ -10,6 +10,7 @@
 ![image](https://github.com/user-attachments/assets/196c58e2-77e4-4e26-8b5f-fbb04a4afb90)
 ![image](https://github.com/user-attachments/assets/076df121-c484-4e84-a046-ae2127fc666f)
 ![image](https://github.com/user-attachments/assets/501ec56c-14f4-4725-a729-2c7d724ef694)
+![image](https://github.com/user-attachments/assets/68383960-9de4-43fd-b2be-5cb3e7feb2d9)
 
 
 ## 1. 功能演示与操作流程
