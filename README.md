@@ -1,11 +1,16 @@
-# FluentlySwiper 微信小程序项目说明（Wechat）
+# FluentlySwiper 微信小程序项目说明（Wechat）（新上传版本在main2分支）
 
 本项目是一个基于微信小程序开发的演示应用，主要展示了自定义组件、登录鉴权、本地视频播放以及动态内容展示等功能。
 浏览视频功能请下载server的node_modules，cmd执行index.js即可
 
-![image](https://github.com/user-attachments/assets/16d4d9b1-c4a8-4920-aa16-7198f7ee4ad5)
-![image](https://github.com/user-attachments/assets/8c1899ff-f9a6-4048-a552-17330eb9d2bf)
-![image](https://github.com/user-attachments/assets/7ba35096-9d0a-48b6-8c5a-ee9816e5c8a6)
+![image](https://github.com/user-attachments/assets/7269ca3f-2c9d-41b8-81b4-6abe41115421)
+![image](https://github.com/user-attachments/assets/f11b98c9-d451-4305-b670-7631322bed95)
+![image](https://github.com/user-attachments/assets/6854cdc0-5401-418a-a5a9-61a936dbceb6)
+![image](https://github.com/user-attachments/assets/25ba6f22-a5f6-4c6c-9ffa-d4e11ba1e215)
+![image](https://github.com/user-attachments/assets/196c58e2-77e4-4e26-8b5f-fbb04a4afb90)
+![image](https://github.com/user-attachments/assets/076df121-c484-4e84-a046-ae2127fc666f)
+![image](https://github.com/user-attachments/assets/501ec56c-14f4-4725-a729-2c7d724ef694)
+
 
 ## 1. 功能演示与操作流程
 
@@ -40,138 +45,7 @@
 
 ## 2. 代码片段与关键技术解释
 
-### 2.1 登录鉴权机制
-
-*   **关键技术**：微信小程序本地存储 (`wx.setStorageSync`, `wx.getStorageSync`, `wx.removeStorageSync`)、页面跳转 (`wx.switchTab`)。
-*   **代码片段**：
-    *   `pages/my/my.js` (登录/登出逻辑)
-    ```javascript
-    // pages/my/my.js
-    // ...
-    handleLogin() {
-      const { username, password } = this.data.user;
-      if (username === "24055060115" && password === "24055060115") {
-        wx.setStorageSync('isLoggedIn', true); // 设置登录状态
-        this.setData({ isLoggedIn: true });
-        wx.showToast({ title: '登录成功', icon: 'success' });
-        setTimeout(() => {
-          wx.switchTab({ url: '/pages/index/index' }); // 跳转到首页
-        }, 1000);
-      } else {
-        wx.showToast({ title: '用户名或密码错误', icon: 'error' });
-      }
-    },
-
-    handleLogout() {
-      wx.removeStorageSync('isLoggedIn'); // 移除登录状态
-      this.setData({ isLoggedIn: false });
-      wx.showToast({ title: '退出成功', icon: 'success' });
-      setTimeout(() => {
-        wx.switchTab({ url: '/pages/my/my' }); // 跳转到我的页面
-      }, 1000);
-    },
-
-    onLoad() {
-      const isLoggedIn = wx.getStorageSync('isLoggedIn') || false; // 检查登录状态
-      this.setData({ isLoggedIn });
-    }
-    // ...
-    ```
-    *   `pages/index/index.js` (登录状态检查)
-    ```javascript
-    // pages/index/index.js
-    Page({
-      onLoad() {
-        this.checkLoginStatus();
-      },
-      onShow() {
-        this.checkLoginStatus();
-      },
-      checkLoginStatus() {
-        const isLoggedIn = wx.getStorageSync('isLoggedIn') || false;
-        if (!isLoggedIn) {
-          wx.showToast({ title: '请先登录', icon: 'error', duration: 1000 });
-          setTimeout(() => {
-            wx.switchTab({ url: '/pages/my/my' }); // 未登录强制跳转
-          }, 1000);
-        }
-      }
-    })
-    ```
-
-### 2.2 自定义 `scrollView` 组件
-
-*   **关键技术**：微信小程序自定义组件、`scroll-view`、`swiper`、`wx:if`/`wx:else` 条件渲染、`String.prototype.endsWith()`。
-*   **作用与实现逻辑**：该组件实现了顶部标签栏与下方内容区域的联动切换。通过 `scroll-view` 实现标签栏的横向滚动，`swiper` 实现内容区域的滑动切换。`handleTabChange` 和 `handleSwiperChange` 方法分别处理点击标签和滑动内容时的状态更新。内容区域根据 `item.cover` 的后缀名动态判断是渲染 `video` 组件还是 `image` 组件。
-*   **代码片段**：
-    *   `components/scrollView/scrollView.wxml` (结构与条件渲染)
-    ```xml
-    <!-- components/scrollView/scollView.wxml -->
-    <scroll-view class="scroll-page container" scroll-y>
-        <!-- 顶部标签栏 -->
-        <scroll-view scroll-x class="container-head-sc" scroll-left="{{sleft}}" scroll-with-animation="true">
-            <view class="item {{currentTab==index?'active':''}}" data-current="{{index}}" catchtap="handleTabChange" wx:key="list" wx:for="{{tabs}}">
-                <view class="flew-row j_c" style="height:100%">
-                    <image src="{{item.icon}}"></image>
-                    <text>{{item.name}}</text>
-                </view>
-            </view>
-        </scroll-view>
-        <!-- 内容滑动区域 -->
-        <swiper current="{{currentTab}}" bindchange="handleSwiperChange" class="container-swiper" duration="{{1000}}" easing-function='easeInOutCubic'>
-            <swiper-item class="flex-column j_c" wx:for="{{tabs}}" wx:key='index'>
-                <scroll-view scroll-y class="container-swiper-sc">
-                    <!-- 根据cover路径判断渲染视频或图片 -->
-                    <block wx:if="{{item.cover === 'http://127.0.0.1:3000/01.mp4'}}">
-                         <video src="http://127.0.0.1:3000/01.mp4" controls="true" show-play-btn="{{true}}" show-center-play-btn="{{true}}" enable-play-gesture="{{true}}" object-fit="contain" class="video-player"></video>
-                    </block>
-                    <block wx:else>
-                        <image src="{{item.cover}}" mode="aspectFill" catchtap='changeUrl' data-url="{{item.url}}" />
-                    </block>
-                </scroll-view>
-              </swiper-item>
-        </swiper>
-    </scroll-view>
-    ```
-    *   `components/scrollView/scrollView.js` (逻辑处理)
-    ```javascript
-    // components/scrollView/scollView.js
-    import { tabs } from '../../images/tabs/data';
-    Component({
-      data: {
-        tabs: tabs,
-        currentTab: 0,
-        sleft: "",
-      },
-      methods: {
-        handleTabChange(e) { // 点击标签切换
-          let { current } = e.currentTarget.dataset;
-          if (this.data.currentTab == current || current === undefined) return;
-          this.setData({ currentTab: current });
-        },
-        handleSwiperChange(e) { // 滑动内容切换
-          this.setData({ currentTab: e.detail.current });
-          this.getScrollLeft();
-        },
-        getScrollLeft() { // 计算标签栏滚动位置
-          const query = wx.createSelectorQuery().in(this);
-          query.selectAll('.item').boundingClientRect();
-          query.exec((res) => {
-            let left = 0;
-            for (let i = 0; i < this.data.currentTab; i++) {
-              left += res[0][i].width;
-            }
-            this.setData({ sleft: Math.ceil(left) });
-          });
-        },
-        changeUrl(e) { // 图片点击事件
-          let { url } = e.currentTarget.dataset;
-          console.log(url);
-          // wx.navigateTo({ url: url }); // 可根据需求跳转
-        }
-      }
-    })
-    ```
+已更新详情请查看代码
 
 ### 2.3 本地视频服务器
 
